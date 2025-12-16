@@ -15,8 +15,8 @@
     <tr>
     <td>{{u.nome}}</td>
     <td>{{u.email}}</td>
-    <td>{{u.password}}</td>
-    <button id="delete_button">Cancella</button>
+    <td>{{ '*'.repeat(u.password.length) }}</td>
+    <button id="delete_button" (click)="eliminaUtente(u.email)">Cancella</button>
     </tr>
     }
     

@@ -10,7 +10,7 @@ table, th, td {
     transition: transform 0.3s ease;
 }
 #delete_button:hover{
-    background-color: rgb(216, 15, 15);
+    background-color: rgb(180, 34, 34);
     transform: rotate(-4deg) scale(1.08);
 }
 

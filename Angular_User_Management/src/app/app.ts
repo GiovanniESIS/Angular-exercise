@@ -14,6 +14,7 @@ export class App {
   nome: string = '';
   email: string = '';
   password: string = '';
+
   utenti: Persona[] = [];
   
   constructor(private userService: Users) {
@@ -40,6 +41,9 @@ export class App {
     } else {
       alert('Compila tutti i campi');
     }
+  }
+  eliminaUtente(email: string){
+    this.userService.eliminaUtente(email)
   }
     protected readonly title = signal('Angular_User_Management');
 }

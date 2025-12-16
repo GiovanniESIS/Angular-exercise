@@ -1,42 +1,74 @@
-import { Component } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Persona } from './Persona';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'  // rende il servizio disponibile globalmente
 })
-
-@Component({
-  selector: 'app-users',
-  imports: [],
-  templateUrl: './users.html',
-  styleUrl: './users.css',
-})
 export class Users {
-  utenti: Persona[] = [
-  { nome: 'Giovanni', email: 'gbuono814@gmail.com', password: '*****' },
-  { nome: 'Luigi', email: 'luigi@example.com', password: '*****' }];
-
-  // Subject per notificare eventuali cambiamenti
-  private utentiSubject = new BehaviorSubject<Persona[]>(this.utenti);
+  private utentiSubject = new BehaviorSubject<Persona[]>(this.caricaUtenti());
+  private utenti: Persona[] = this.caricaUtenti();
 
   constructor() { }
 
-  // Restituisce la lista utenti come Observable
-  getUtenti(): Observable<Persona[]> {
+  // Recupera tutti gli utenti dal localStorage
+  public caricaUtenti(): Persona[] {
+    const utenti: Persona[] = [];
+    let i = 1;
+    while (localStorage.getItem(`utente${i}`)) {
+      utenti.push(JSON.parse(localStorage.getItem(`utente${i}`)!));
+      i++;
+    }
+    return utenti;
+  }
+
+  // Restituisce l'observable per aggiornare la lista
+  public getUtenti(): Observable<Persona[]> {
     return this.utentiSubject.asObservable();
   }
 
-  // Crea un nuovo utente
-  creaUtente(persona: Persona) {
-    // Controllo semplice: non permettere email duplicate
-    const esiste = this.utenti.some(u => u.email === persona.email);
-    if (esiste) {
+  // Crea un nuovo utente e lo salva con chiave utente1, utente2...
+  public creaUtente(persona: Persona) {
+    // Controllo duplicati
+    const duplicato = this.utenti.some(u => u.email === persona.email);
+    if (duplicato) {
       throw new Error('Email già presente');
     }
 
+    // Trova il prossimo numero disponibile
+    let numero = 1;
+    while (localStorage.getItem(`utente${numero}`)) {
+      numero++;
+    }
+
+    // Salva singolarmente nel localStorage
+    localStorage.setItem(`utente${numero}`, JSON.stringify(persona));
+
+    // Aggiorna array interno e notifica subscribers
     this.utenti.push(persona);
-    this.utentiSubject.next(this.utenti); // Notifica eventuali componenti/subscribers
+    this.utentiSubject.next(this.utenti);
   }
+  public eliminaUtente(email: string) {
+  // Rimuove dal localStorage
+  let i = 1;
+  while (localStorage.getItem(`utente${i}`)) {
+   const utente: Persona = JSON.parse(
+      localStorage.getItem(`utente${i}`)!
+    );
+    console.log(utente.email + email)
+
+    if (utente.email == email) {
+      localStorage.removeItem(`utente${i}`);
+      break;
+    }
+    i++;
+  }
+  
+  // Aggiorna array interno
+  this.utenti = this.utenti.filter(u => u.email !== email);
+
+  // Notifica i componenti
+  this.utentiSubject.next(this.utenti);
+}
+
 }
