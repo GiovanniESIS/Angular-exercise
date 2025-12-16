@@ -1,8 +1,8 @@
 <h1>CREAZIONE DELL'UTENTE</h1>
-<input type="text" placeholder="Inserisci il tuo nome">
-<input type="text" placeholder="Inserisci la tua email">
-<input type="password" placeholder="Inserisci la tua password">
-<button id="submit_data_button">Invia</button>
+<input type="text" placeholder="Inserisci il tuo nome" [(ngModel)]="nome">
+<input type="text" placeholder="Inserisci la tua email" [(ngModel)]="email">
+<input type="password" placeholder="Inserisci la tua password" [(ngModel)]="password">
+<button id="submit_data_button" (click)="aggiungiUtente()">Invia</button>
 <table style="width:25%;">
   <tr>
     <th>NOME</th>
@@ -10,11 +10,17 @@
     <th>PASSWORD</th>
     <th>DELETE</th>
   </tr>
-  <tr>
-    <th>Giovanni</th>
-    <th>gbuono814@gmail.com</th>
-    <th>*****</th>
+  
+    @for (u of utenti; track $index) {
+    <tr>
+    <td>{{u.nome}}</td>
+    <td>{{u.email}}</td>
+    <td>{{u.password}}</td>
     <button id="delete_button">Cancella</button>
-  </tr>
+    </tr>
+    }
+    
+  
 </table>
+
 

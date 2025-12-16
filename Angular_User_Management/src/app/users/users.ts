@@ -1,13 +1,22 @@
-import { Injectable } from '@angular/core';
+import { Component } from '@angular/core';
+import { Persona } from './Persona';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Persona } from './persona';
-@Injectable({
-  providedIn: 'root'
-})
-export class UserService {
+import { Injectable } from '@angular/core';
 
-  // Lista interna di utenti
-  private utenti: Persona[] = [];
+@Injectable({
+  providedIn: 'root'  // rende il servizio disponibile globalmente
+})
+
+@Component({
+  selector: 'app-users',
+  imports: [],
+  templateUrl: './users.html',
+  styleUrl: './users.css',
+})
+export class Users {
+  utenti: Persona[] = [
+  { nome: 'Giovanni', email: 'gbuono814@gmail.com', password: '*****' },
+  { nome: 'Luigi', email: 'luigi@example.com', password: '*****' }];
 
   // Subject per notificare eventuali cambiamenti
   private utentiSubject = new BehaviorSubject<Persona[]>(this.utenti);
