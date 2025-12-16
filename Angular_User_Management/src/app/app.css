@@ -1,3 +1,29 @@
 table, th, td {
   border:1px solid black;
 }
+#delete_button{
+    color: white;
+    border-radius: 4px;
+    border: 0;
+    width: 100px;
+    background-color: red;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+}
+#delete_button:hover{
+    background-color: rgb(216, 15, 15);
+    transform: rotate(-4deg) scale(1.08);
+}
+
+#submit_data_button{
+    background-color:cornflowerblue;
+    border: 0;
+    height: 20px;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+}
+
+#submit_data_button:hover{
+    background-color:rgb(87, 125, 197);
+    transform: rotate(-4deg) scale(1.15);
+}
