@@ -1,0 +1,32 @@
+#login_btn{
+    font-weight: bold;
+    font-size: 17px;
+    width: 90px;
+    height: 30px;
+    background-color: cornflowerblue;
+    border: none;
+    border-radius: 5px;
+    transition: transform 0.3s ease;
+}
+
+#signIn_btn{
+    font-weight: bold;
+    font-size: 17px;
+    width: 90px;
+    height: 30px;
+    background-color: cornflowerblue;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+}
+
+#login_btn:hover{
+    background-color: rgb(93, 134, 210);
+    transform: scale(1.1) rotate(4deg);
+}
+
+#signIn_btn:hover{
+    background-color: rgb(93, 134, 210);
+    transform: scale(1.1) rotate(4deg);
+}
