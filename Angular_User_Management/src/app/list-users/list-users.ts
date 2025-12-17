@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { Users } from '../users/users';
 import { Persona } from '../users/Persona';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router} from '@angular/router';
 import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-list-users',
-  imports: [RouterOutlet,FormsModule],
+  imports: [FormsModule],
   templateUrl: './list-users.html',
   styleUrl: './list-users.css',
 })

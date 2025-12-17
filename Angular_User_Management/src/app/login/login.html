@@ -1,15 +1,13 @@
-
 <div id="box_form">
-  <h2>Sign in</h2>
+  <h2>Login</h2>
 
-  <input type="text" placeholder="Nome" [(ngModel)]="nome"><br><br>
   <input type="text" placeholder="Email" [(ngModel)]="email"><br><br>
   <input type="password" placeholder="Password" [(ngModel)]="password"><br><br>
-  <button id="button_reg" (click)="aggiungiUtente()">Registrati</button><br>
+  <button id="button_log" (click)="login()">Accedi</button><br>
   @if(isError){
     <span style="color: rgb(255, 77, 77);">{{err}}</span>
   }
-  <br><br>
+  <br><br><br><br>
   <a routerLink="/home">Torna alla home</a>
 </div>
 

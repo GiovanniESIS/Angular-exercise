@@ -1,0 +1,20 @@
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-home',
+  imports: [],
+  templateUrl: './home.html',
+  styleUrl: './home.css',
+})
+export class Home {
+
+  constructor(private router: Router){}
+
+  go_to_SignIn(){
+    this.router.navigate(['/sign-in']);
+  }
+  go_to_Login(){
+    this.router.navigate(['/login']);
+  }
+}
