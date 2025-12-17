@@ -1,17 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOX</title>
-</head>
-<body>
-    <form id="box_form" action="">
-        <h2>Sign in</h2>
-        <input type="text" name="nome" id="nome" placeholder="Nome"><br><br>
-        <input type="text" name="email" id="email" placeholder="Email"><br><br>
-        <input type="password" name="password" id="password" placeholder="Password"><br><br>
-        <button id="button_reg">Registrati</button>
-    </form>
-</body>
-</html>
+
+<div id="box_form">
+  <h2>Sign in</h2>
+
+  <input type="text" placeholder="Nome" [(ngModel)]="nome"><br><br>
+  <input type="text" placeholder="Email" [(ngModel)]="email"><br><br>
+  <input type="password" placeholder="Password" [(ngModel)]="password"><br><br>
+
+  <button id="button_reg" (click)="aggiungiUtente()">Registrati</button>
+</div>
+
+
