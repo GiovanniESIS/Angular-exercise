@@ -22,7 +22,15 @@ export class SignIn {
   constructor(private userService: Users,private router: Router) {
       this.userService.getUtenti().subscribe(u => this.utenti = u);
     }
+  private emailValida(email: string): boolean {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+}
   aggiungiUtente() {
+    if(!this.emailValida(this.email)){
+      alert("Email non valida")
+      return
+    }
     if (this.nome && this.email && this.password) {
       try {
         const nuovoUtente: Persona = {
