@@ -6,6 +6,7 @@
     <th>EMAIL</th>
     <th>PASSWORD</th>
     <th>DELETE</th>
+    <th>MODIFY</th>
   </tr>
   
     @for (u of utenti; track $index) {
@@ -13,7 +14,8 @@
     <td>{{u.nome}}</td>
     <td>{{u.email}}</td>
     <td>{{ '*'.repeat(u.password.length) }}</td>
-    <button id="delete_button" (click)="eliminaUtente(u.email)">Cancella</button>
+    <td><button id="delete_button" (click)="eliminaUtente(u.email)">Cancella</button></td>
+    <td><button id="modify_btn" (click)="goModify(u.email)">Modifica</button></td>    
     </tr>
     }
 

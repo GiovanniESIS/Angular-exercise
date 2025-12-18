@@ -25,6 +25,12 @@ nome: string = '';
     this.userService.eliminaUtente(email)
   }
 
+  goModify(email: string) {
+  this.userService.setSelectedEmail(email);
+  this.router.navigate(['/modify-data']);
+}
+
+
   tornaHome() {
     this.router.navigate(['/']);
   }

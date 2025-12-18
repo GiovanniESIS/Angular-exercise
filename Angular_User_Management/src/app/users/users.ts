@@ -9,6 +9,15 @@ export class Users {
   private utentiSubject = new BehaviorSubject<Persona[]>(this.caricaUtenti());
   private utenti: Persona[] = this.caricaUtenti();
 
+  private selectedEmail: string | null = null;
+
+  setSelectedEmail(email: string) {
+    this.selectedEmail = email;
+  }
+
+  getSelectedEmail(): string | null {
+    return this.selectedEmail;
+  }
   constructor() { }
 
   public caricaUtenti(): Persona[] {
@@ -58,6 +67,39 @@ export class Users {
   this.utenti = this.utenti.filter(u => u.email !== email);
 
   this.utentiSubject.next(this.utenti);
+}
+
+  updatePassword(email: string, newPassword: string): boolean {
+  let i = 1;
+  let trovato = false;
+
+  // aggiorna localStorage
+  while (localStorage.getItem(`utente${i}`)) {
+    const utente: Persona = JSON.parse(
+      localStorage.getItem(`utente${i}`)!
+    );
+
+    if (utente.email === email) {
+      utente.password = newPassword;
+      localStorage.setItem(`utente${i}`, JSON.stringify(utente));
+      trovato = true;
+      break;
+    }
+    i++;
+  }
+
+  if (!trovato) {
+    return false;
+  }
+
+  const user = this.utenti.find(u => u.email === email);
+  if (user) {
+    user.password = newPassword;
+  }
+
+  this.utentiSubject.next(this.utenti);
+
+  return true;
 }
 
 }

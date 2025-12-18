@@ -1,0 +1,16 @@
+<div id="box_form">
+  <h2>Aggiorna password</h2>
+
+  <input type="text" [disabled]="true" placeholder="{{email}}" [(ngModel)]="email"><br><br>
+  <input type="password" placeholder="Password" [(ngModel)]="password"><br><br>
+  <input type="password" placeholder="conferma password" [(ngModel)]="confirm_password"><br><br>
+  <button id="button_modify" (click)="modify()">Conferma dati</button>
+  @if(isError){
+    <br>
+    <span style="color: rgb(255, 77, 77); font-size: 15px;">{{err}}</span>
+  }
+  <br><br><br><br>
+  <a id="home" routerLink="/home"><img src="tornare_indietro.gif"></a>
+</div>
+
+

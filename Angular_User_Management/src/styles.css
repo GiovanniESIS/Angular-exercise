@@ -54,6 +54,22 @@
             transform: scale(1.1) rotate(4deg);
         }
 
+        #button_modify{
+            font-size: 15px;
+            width: 120px;
+            height: 35px;
+            background-color:cornflowerblue;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }   
+
+        #button_modify:hover{
+            background-color:rgb(89, 125, 194);
+            transform: scale(1.1) rotate(4deg);
+        }
+
         #home {
     position: fixed;
     top: 15px;
