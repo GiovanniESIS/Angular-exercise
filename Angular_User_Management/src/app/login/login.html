@@ -2,8 +2,14 @@
   <h2>Login</h2>
 
   <input type="text" placeholder="Email" [(ngModel)]="email"><br><br>
-  <input type="password" placeholder="Password" [(ngModel)]="password"><br><br>
+  @if(showPassword){
+    <input type="text" placeholder="Password" [(ngModel)]="password"><br><br>
+  } @else {
+    <input type="password" placeholder="Password" [(ngModel)]="password"><br><br>
+  }
+  <input type="checkbox" (click)="togglePassword()"> {{nome_check}} <br><br>
   <button id="button_log" (click)="login()">Accedi</button>
+  
   @if(isError){
     <br>
     <span style="color: rgb(255, 77, 77); font-size: 15px;">{{err}}</span>

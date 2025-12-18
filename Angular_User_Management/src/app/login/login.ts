@@ -15,6 +15,16 @@ export class Login {
   err: string = '';
   isError: boolean = false;
   utenti: Persona[] = [];
+  showPassword: boolean = false;
+  nome_check: string = "Mostra password";
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+    if (this.showPassword) {
+      this.nome_check = "Nascondi password";
+    } else {
+      this.nome_check = "Mostra password";
+    }
+  }
 
   constructor(private userService: Users, private router: Router) {
     this.userService.getUtenti().subscribe(u => this.utenti = u);

@@ -4,7 +4,12 @@
 
   <input type="text" placeholder="Nome" [(ngModel)]="nome"><br><br>
   <input type="text" placeholder="Email" [(ngModel)]="email"><br><br>
-  <input type="password" placeholder="Password" [(ngModel)]="password"><br><br>
+  @if(showPassword){
+    <input type="text" placeholder="Password" [(ngModel)]="password"><br><br>
+  } @else {
+    <input type="password" placeholder="Password" [(ngModel)]="password"><br><br>
+  }
+  <input type="checkbox" (click)="togglePassword()"> {{nome_check}} <br><br>
   <button id="button_reg" (click)="aggiungiUtente()">Registrati</button><br>
   @if(isError){
     <span style="color: rgb(255, 77, 77); font-size: 15px;">{{err}}</span>

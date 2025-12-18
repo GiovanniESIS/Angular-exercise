@@ -11,19 +11,28 @@ import { Users } from '../users/users';
   styleUrl: './modify-data.css',
 })
 export class ModifyData {
-  
   email  = '';
   password = '';
   confirm_password = '';
   err = '';
   isError = false;
+  showPassword: boolean = false;
+  nome_check: string = "Mostra password";
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+    if (this.showPassword) {
+      this.nome_check = "Nascondi password";
+    } else {
+      this.nome_check = "Mostra password";
+    }
+  }
 
   constructor(
     private userService: Users,
     private router: Router
     
   ) {}
-  
+
   ngOnInit() {
     const savedEmail = this.userService.getSelectedEmail();
 

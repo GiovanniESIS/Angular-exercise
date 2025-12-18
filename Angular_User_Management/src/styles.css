@@ -71,20 +71,20 @@
         }
 
         #home {
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    z-index: 1000;
-}
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1000;
+        }
 
-#home img {
-    width: 35px;
-    height: 35px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    cursor: pointer;
-    transition: transform 0.2s ease, opacity 0.2s ease;
-}
+        #home img {
+            width: 35px;
+            height: 35px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
 
-#home img:hover {
-    transform: scale(1.3);
-}
+        #home img:hover {
+            transform: scale(1.3);
+        }

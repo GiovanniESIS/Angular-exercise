@@ -2,8 +2,14 @@
   <h2>Aggiorna password</h2>
 
   <input type="text" [disabled]="true" placeholder="{{email}}" [(ngModel)]="email"><br><br>
-  <input type="password" placeholder="Nuova password" [(ngModel)]="password"><br><br>
-  <input type="password" placeholder="Conferma nuova password" [(ngModel)]="confirm_password"><br><br>
+  @if(showPassword){
+    <input type="text" placeholder="Password" [(ngModel)]="password"><br><br>
+    <input type="text" placeholder="Conferma nuova password" [(ngModel)]="confirm_password"><br><br>
+  } @else {
+    <input type="password" placeholder="Password" [(ngModel)]="password"><br><br>
+    <input type="password" placeholder="Conferma nuova password" [(ngModel)]="confirm_password"><br><br>
+  }
+  <input type="checkbox" (click)="togglePassword()"> {{nome_check}} <br><br>
   <button id="button_modify" (click)="modify()">Conferma dati</button>
   @if(isError){
     <br>

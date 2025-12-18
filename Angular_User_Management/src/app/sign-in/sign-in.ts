@@ -18,6 +18,16 @@ export class SignIn {
     err: string = '';
     isError = false;
     utenti: Persona[] = [];
+    showPassword: boolean = false;
+    nome_check: string = "Mostra password";
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+    if (this.showPassword) {
+      this.nome_check = "Nascondi password";
+    } else {
+      this.nome_check = "Mostra password";
+    }
+  }
   goToApp() {
     this.router.navigate(['/list_users']);
   }
