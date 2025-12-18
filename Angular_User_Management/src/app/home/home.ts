@@ -11,9 +11,6 @@ export class Home {
 
   constructor(private router: Router){}
 
-  go_to_SignIn(){
-    this.router.navigate(['/sign-in']);
-  }
   go_to_Login(){
     this.router.navigate(['/login']);
   }
