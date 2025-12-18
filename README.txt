@@ -8,8 +8,7 @@ Il progetto è pensato come esercizio pratico per consolidare concetti fondament
 ## 🚀 Tecnologie utilizzate
 - **Angular** (Standalone Components)
 - **TypeScript**
-- **SCSS**
-- **RxJS**
+- **CSS**
 - **Angular Router**
 
 ---
@@ -30,5 +29,4 @@ Il progetto utilizza:
 - Separazione tra **features**, **core** e **shared**
 - Servizi dedicati per la gestione dello stato e della logica
 
-Struttura semplificata:
 
