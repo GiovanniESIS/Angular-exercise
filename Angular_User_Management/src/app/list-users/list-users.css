@@ -89,3 +89,28 @@ tr:hover {
 #modify_btn:hover {
     background-color:tomato;
 }
+.action-button {
+    padding: 8px 14px;
+    background-color: #1abc9c; /* verde acqua elegante */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.action-button:hover {
+    background-color: #16a085;
+    transform: scale(1.05);
+}
+
+.action-button:active {
+    transform: scale(0.97);
+}
+
+/* versione più piccola per la tabella */
+.action-button.small {
+    padding: 5px 10px;
+    font-size: 13px;
+}

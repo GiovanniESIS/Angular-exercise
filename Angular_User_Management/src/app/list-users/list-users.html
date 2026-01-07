@@ -1,6 +1,6 @@
 <h1>ELENCO DEGLI UTENTI</h1>
 <button id="submit_data_button" (click)="tornaHome()">Torna alla home</button>
-<button id="show_all_actions_button" (click)="mostraAzioniGenerali()" style="margin: 1rem 0;"> Mostra tutte le azioni </button>
+<button id="show_all_actions_button" class="action-button" (click)="mostraAzioniGenerali()" style="margin: 1rem 0;"> Mostra tutte le azioni </button>
 <table style="width:25%;">
   <tr>
     <th>NOME</th>
@@ -17,7 +17,7 @@
     <td>{{ '*'.repeat(u.password.length) }}</td>
     <td><button id="delete_button" (click)="eliminaUtente(u.email)">Cancella</button></td>
     <td><button id="modify_btn" (click)="goModify(u.email)">Modifica</button></td>
-    <td><button (click)="selezionaUtente(u)">Mostra azioni</button></td>
+    <td><button class="action-button small"  (click)="selezionaUtente(u)">Mostra azioni</button></td>
     
     </tr>
     }
