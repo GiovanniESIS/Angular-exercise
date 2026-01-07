@@ -69,37 +69,36 @@ export class Users {
   this.utentiSubject.next(this.utenti);
 }
 
-  updatePassword(email: string, newPassword: string): boolean {
+  updatePassword(email: string, old_password: string, newPassword: string): boolean {
   let i = 1;
-  let trovato = false;
 
-  // aggiorna localStorage
   while (localStorage.getItem(`utente${i}`)) {
     const utente: Persona = JSON.parse(
       localStorage.getItem(`utente${i}`)!
     );
 
     if (utente.email === email) {
+
+      if (utente.password !== old_password) {
+        return false;
+      }
+
       utente.password = newPassword;
       localStorage.setItem(`utente${i}`, JSON.stringify(utente));
-      trovato = true;
-      break;
+
+      const user = this.utenti.find(u => u.email === email);
+      if (user) {
+        user.password = newPassword;
+      }
+
+      this.utentiSubject.next(this.utenti);
+      return true;
     }
+
     i++;
   }
 
-  if (!trovato) {
-    return false;
-  }
-
-  const user = this.utenti.find(u => u.email === email);
-  if (user) {
-    user.password = newPassword;
-  }
-
-  this.utentiSubject.next(this.utenti);
-
-  return true;
+  return false;
 }
 
 }

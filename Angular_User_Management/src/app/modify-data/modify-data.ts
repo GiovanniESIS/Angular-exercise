@@ -12,6 +12,7 @@ import { Users } from '../users/users';
 })
 export class ModifyData {
   email  = '';
+  old_password = '';
   password = '';
   confirm_password = '';
   err = '';
@@ -54,15 +55,18 @@ export class ModifyData {
       return;
     }
 
-    const success = this.userService.updatePassword(
-      this.email,
-      this.password
-    );
+   
+
+  const success = this.userService.updatePassword(
+    this.email,
+    this.old_password,
+    this.password
+  );
 
     if (success) {
       this.router.navigate(['/list_users']);
     } else {
-      this.showError('Utente non trovato');
+      this.showError('Vecchia password errata');
     }
   }
 
