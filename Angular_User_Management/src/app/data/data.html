@@ -1,0 +1,11 @@
+<div class="data-container">
+
+  <input type="date" (change)="onDateChange($event)">
+
+  <ul>
+    <li *ngFor="let action of filtered()">
+      {{ action.title }}
+    </li>
+  </ul>
+
+</div>

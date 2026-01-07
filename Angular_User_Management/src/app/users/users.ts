@@ -11,6 +11,8 @@ export class Users {
 
   private selectedEmail: string | null = null;
 
+  constructor() {}
+
   setSelectedEmail(email: string) {
     this.selectedEmail = email;
   }
@@ -18,7 +20,6 @@ export class Users {
   getSelectedEmail(): string | null {
     return this.selectedEmail;
   }
-  constructor() { }
 
   public caricaUtenti(): Persona[] {
     const utenti: Persona[] = [];
@@ -32,6 +33,16 @@ export class Users {
 
   public getUtenti(): Observable<Persona[]> {
     return this.utentiSubject.asObservable();
+  }
+
+  private salvaAzioneGenerale(azione: any) {
+    const lista = JSON.parse(localStorage.getItem('azioni_generali') || '[]');
+    lista.push(azione);
+    localStorage.setItem('azioni_generali', JSON.stringify(lista));
+  }
+
+  public getAzioniGenerali(): any[] {
+    return JSON.parse(localStorage.getItem('azioni_generali') || '[]');
   }
 
   public creaUtente(persona: Persona) {
@@ -48,57 +59,80 @@ export class Users {
 
     this.utenti.push(persona);
     this.utentiSubject.next(this.utenti);
+
+    this.salvaAzioneGenerale({
+      email: persona.email,
+      nome: persona.nome,
+      title: "ha creato un utente",
+      date: new Date().toISOString().slice(0, 10)
+    });
   }
+
   public eliminaUtente(email: string) {
-  let i = 1;
-  while (localStorage.getItem(`utente${i}`)) {
-   const utente: Persona = JSON.parse(
-      localStorage.getItem(`utente${i}`)!
-    );
-    console.log(utente.email + email)
+    let i = 1;
+    let nome = '';
 
-    if (utente.email == email) {
-      localStorage.removeItem(`utente${i}`);
-      break;
+    while (localStorage.getItem(`utente${i}`)) {
+      const utente: Persona = JSON.parse(localStorage.getItem(`utente${i}`)!);
+
+      if (utente.email === email) {
+        nome = utente.nome;
+        localStorage.removeItem(`utente${i}`);
+        break;
+      }
+      i++;
     }
-    i++;
-  }
-  
-  this.utenti = this.utenti.filter(u => u.email !== email);
 
-  this.utentiSubject.next(this.utenti);
-}
+    this.utenti = this.utenti.filter(u => u.email !== email);
+    this.utentiSubject.next(this.utenti);
+
+    this.salvaAzioneGenerale({
+      email: email,
+      nome: nome || email,
+      title: "ha eliminato un utente",
+      date: new Date().toISOString().slice(0, 10)
+    });
+  }
 
   updatePassword(email: string, old_password: string, newPassword: string): boolean {
-  let i = 1;
+    let i = 1;
 
-  while (localStorage.getItem(`utente${i}`)) {
-    const utente: Persona = JSON.parse(
-      localStorage.getItem(`utente${i}`)!
-    );
+    while (localStorage.getItem(`utente${i}`)) {
+      const utente: Persona = JSON.parse(localStorage.getItem(`utente${i}`)!);
 
-    if (utente.email === email) {
+      if (utente.email === email) {
 
-      if (utente.password !== old_password) {
-        return false;
+        if (utente.password !== old_password) {
+          return false;
+        }
+
+        // aggiorna localStorage
+        utente.password = newPassword;
+        localStorage.setItem(`utente${i}`, JSON.stringify(utente));
+
+        // aggiorna array utenti
+        const user = this.utenti.find(u => u.email === email);
+        if (user) {
+          user.password = newPassword;
+        }
+
+        // salva azione
+        this.salvaAzioneGenerale({
+          email: utente.email,
+          nome: utente.nome,
+          title: "ha modificato la password",
+          date: new Date().toISOString().slice(0, 10)
+        });
+
+        // aggiorna observable
+        this.utentiSubject.next(this.utenti);
+
+        return true;
       }
 
-      utente.password = newPassword;
-      localStorage.setItem(`utente${i}`, JSON.stringify(utente));
-
-      const user = this.utenti.find(u => u.email === email);
-      if (user) {
-        user.password = newPassword;
-      }
-
-      this.utentiSubject.next(this.utenti);
-      return true;
+      i++;
     }
 
-    i++;
+    return false;
   }
-
-  return false;
-}
-
 }

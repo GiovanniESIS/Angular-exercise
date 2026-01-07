@@ -4,6 +4,7 @@ import { ListUsers } from './list-users/list-users';
 import { Login } from './login/login';
 import { Home } from './home/home';
 import { ModifyData } from './modify-data/modify-data';
+import { DataComponent } from './data/data';
 
 export const routes: Routes = [
   { path: 'home', component: Home},
@@ -11,5 +12,8 @@ export const routes: Routes = [
   { path: 'sign-in', component: SignIn },
   { path: 'list_users', component: ListUsers },
   { path: 'modify-data', component: ModifyData},
+  {path:'data',component:DataComponent},
   { path: '', redirectTo: 'home', pathMatch: 'full' }
+
+  
 ];
