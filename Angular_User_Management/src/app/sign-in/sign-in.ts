@@ -59,6 +59,7 @@ export class SignIn {
       password: this.password
     };
     this.userService.creaUtente(nuovoUtente);
+    this.userService.setUtenteAttivo(nuovoUtente.nome);
     this.goToApp();
     this.nome = '';
     this.email = '';

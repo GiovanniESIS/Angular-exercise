@@ -39,7 +39,10 @@ export class Login {
     const utente = this.utenti.find(u => u.email === this.email && u.password === this.password);
 
     if (utente) {
+                  this.userService.setUtenteAttivo(utente.nome);
+
       this.router.navigate(['/list_users']);
+
     } else {
       this.showError('Email o password errati');
     }

@@ -1,4 +1,5 @@
 <h1>ELENCO DEGLI UTENTI</h1>
+<h2>Ciao, <strong>{{ utenteAttivo }}</strong></h2>
 <button id="submit_data_button" (click)="tornaHome()">Torna alla home</button>
 <button id="show_all_actions_button" class="action-button" (click)="mostraAzioniGenerali()" style="margin: 1rem 0;"> Mostra tutte le azioni </button>
 <table style="width:25%;">
@@ -24,11 +25,23 @@
 
 </table>
 <div *ngIf="utenteSelezionato" style="margin-top: 20px;">
-<h2>Azioni di {{ utenteSelezionato.nome }}</h2>
-  <label>Filtra per data:</label> 
-  <input type="date" [(ngModel)]="dataSelezionata"> 
-  <ul> <li *ngFor="let a of azioniFiltrate"> 
-    {{ a.title }} - {{ a.date }} 
-    </li> 
-  </ul> 
+
+  <h2>Azioni di {{ utenteSelezionato.nome }}</h2>
+
+  <!-- 🔥 TASTO SVUOTA CRONOLOGIA -->
+  <button class="action-button small"
+          style="margin-bottom: 1rem;"
+          (click)="svuotaCronologia()">
+    🗑️ Svuota cronologia
+  </button>
+
+  <label>Filtra per data:</label>
+  <input type="date" [(ngModel)]="dataSelezionata">
+
+  <ul>
+    <li *ngFor="let a of azioniFiltrate">
+      <strong>{{ a.autore }}</strong> — {{ a.title }} — {{ a.date }}
+    </li>
+  </ul>
+
 </div>

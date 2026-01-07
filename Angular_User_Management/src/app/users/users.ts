@@ -6,12 +6,30 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class Users {
+
   private utentiSubject = new BehaviorSubject<Persona[]>(this.caricaUtenti());
   private utenti: Persona[] = this.caricaUtenti();
 
   private selectedEmail: string | null = null;
+  private utenteAttivo: string = '';
 
-  constructor() {}
+  constructor() {
+    this.utenteAttivo = localStorage.getItem('utenteAttivo') || '';
+  }
+
+ 
+  setUtenteAttivo(nome: string) {
+    this.utenteAttivo = nome;
+    localStorage.setItem('utenteAttivo', nome);
+  }
+
+  getUtenteAttivo(): string {
+    if (!this.utenteAttivo) {
+      this.utenteAttivo = localStorage.getItem('utenteAttivo') || '';
+    }
+    return this.utenteAttivo;
+  }
+
 
   setSelectedEmail(email: string) {
     this.selectedEmail = email;
@@ -21,13 +39,32 @@ export class Users {
     return this.selectedEmail;
   }
 
+
+  getAzioniGenerali(): any[] {
+    return JSON.parse(localStorage.getItem('azioni_generali') || '[]');
+  }
+
+  setAzioniGenerali(azioni: any[]) {
+    localStorage.setItem('azioni_generali', JSON.stringify(azioni));
+  }
+
+  private salvaAzioneGenerale(azione: any) {
+    const lista = this.getAzioniGenerali();
+    azione.autore = this.utenteAttivo || '';
+    lista.push(azione);
+    this.setAzioniGenerali(lista);
+  }
+
+ 
   public caricaUtenti(): Persona[] {
     const utenti: Persona[] = [];
     let i = 1;
+
     while (localStorage.getItem(`utente${i}`)) {
       utenti.push(JSON.parse(localStorage.getItem(`utente${i}`)!));
       i++;
     }
+
     return utenti;
   }
 
@@ -35,15 +72,6 @@ export class Users {
     return this.utentiSubject.asObservable();
   }
 
-  private salvaAzioneGenerale(azione: any) {
-    const lista = JSON.parse(localStorage.getItem('azioni_generali') || '[]');
-    lista.push(azione);
-    localStorage.setItem('azioni_generali', JSON.stringify(lista));
-  }
-
-  public getAzioniGenerali(): any[] {
-    return JSON.parse(localStorage.getItem('azioni_generali') || '[]');
-  }
 
   public creaUtente(persona: Persona) {
     const duplicato = this.utenti.some(u => u.email === persona.email);
@@ -55,6 +83,7 @@ export class Users {
     while (localStorage.getItem(`utente${numero}`)) {
       numero++;
     }
+
     localStorage.setItem(`utente${numero}`, JSON.stringify(persona));
 
     this.utenti.push(persona);
@@ -67,6 +96,7 @@ export class Users {
       date: new Date().toISOString().slice(0, 10)
     });
   }
+
 
   public eliminaUtente(email: string) {
     let i = 1;
@@ -94,6 +124,8 @@ export class Users {
     });
   }
 
+ 
+ 
   updatePassword(email: string, old_password: string, newPassword: string): boolean {
     let i = 1;
 
@@ -106,17 +138,14 @@ export class Users {
           return false;
         }
 
-        // aggiorna localStorage
         utente.password = newPassword;
         localStorage.setItem(`utente${i}`, JSON.stringify(utente));
 
-        // aggiorna array utenti
         const user = this.utenti.find(u => u.email === email);
         if (user) {
           user.password = newPassword;
         }
 
-        // salva azione
         this.salvaAzioneGenerale({
           email: utente.email,
           nome: utente.nome,
@@ -124,7 +153,6 @@ export class Users {
           date: new Date().toISOString().slice(0, 10)
         });
 
-        // aggiorna observable
         this.utentiSubject.next(this.utenti);
 
         return true;
