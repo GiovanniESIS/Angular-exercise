@@ -4,8 +4,8 @@
             background:#f0f2f5;
         }
         #box_form{
-             width: 90%;           /* si adatta alla larghezza dello schermo */
-             max-width: 400px;     /* non diventa troppo grande */
+            width: 90%;           /* si adatta alla larghezza dello schermo */
+            max-width: 300px;     /* non diventa troppo grande */
             min-width: 250px;     /* non diventa troppo piccolo */
             background-color: white;
             border-radius: 4px;
