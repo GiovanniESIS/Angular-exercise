@@ -9,7 +9,7 @@
   }
   <input type="checkbox" (click)="togglePassword()"> {{nome_check}} <br><br>
   <button id="button_log" (click)="login()">Accedi</button><br>
-  <a routerLink="/sign-in">Crea un'account</a>
+  <a routerLink="/sign-in">Non hai un account? Registrati!</a>
   @if(isError){
     <br>
     <span style="color: rgb(255, 77, 77); font-size: 15px;">{{err}}</span>
