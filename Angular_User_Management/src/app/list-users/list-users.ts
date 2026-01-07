@@ -1,86 +1,117 @@
 import { Component } from '@angular/core';
 import { Users } from '../users/users';
 import { Persona } from '../users/Persona';
-import { Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-list-users',
-  standalone : true,
-  imports: [FormsModule,CommonModule],
+  standalone: true,
+  imports: [FormsModule, CommonModule],
   templateUrl: './list-users.html',
-  styleUrls: ['./list-users.css'],
-
+  styleUrls: ['./list-users.css']
 })
 export class ListUsers {
-nome: string = '';
+
+  nome: string = '';
   email: string = '';
   password: string = '';
+
   utenti: Persona[] = [];
   utenteSelezionato: Persona | null = null;
-   azioniUtente: any[] = []; 
-   dataSelezionata: string = '';
-   utenteAttivo: string = '';
+
+  azioniUtente: any[] = [];
+  dataSelezionata: string = '';
+
+  utenteAttivo: string = '';
+
+  mostra: boolean = false;
 
   constructor(private userService: Users, private router: Router) {
     this.userService.getUtenti().subscribe(u => this.utenti = u);
     this.utenteAttivo = this.userService.getUtenteAttivo();
   }
 
-  
-  eliminaUtente(email: string){
-    this.userService.eliminaUtente(email)
+  eliminaUtente(email: string) {
+    this.userService.eliminaUtente(email);
   }
-  goModify(email: string) { this.userService.setSelectedEmail(email); this.router.navigate(['/modify-data']); }
-selezionaUtente(utente: Persona) 
-{ 
-  this.utenteSelezionato = utente;
-  const tutte = this.userService.getAzioniGenerali(); 
-  this.azioniUtente = tutte
-  .filter(a => a.email === utente.email)
-  .map(a => ({
-    ...a,
-    autore: a.autore || utente.nome   
-  }));
 
-}
-mostraAzioniGenerali() {
-   this.utenteSelezionato = { nome: "Tutti", email: "", password: "" } as Persona; 
-   const tutte = this.userService.getAzioniGenerali();
-
-this.azioniUtente = tutte.map(a => ({
-  ...a,
-  autore: a.autore || ''  
-}));
-
-   this.dataSelezionata = ""; 
+  goModify(email: string) {
+    this.userService.setSelectedEmail(email);
+    this.router.navigate(['/modify-data']);
   }
- get azioniFiltrate()
- { 
-    if (!this.dataSelezionata) return this.azioniUtente; 
-  return this.azioniUtente.filter(a => a.date === this.dataSelezionata); } 
+
+  selezionaUtente(utente: Persona) {
+    this.mostra = false; // disattiva la vista generale
+    this.utenteSelezionato = utente;
+
+    const tutte = this.userService.getAzioniGenerali();
+
+    this.azioniUtente = tutte
+      .filter(a => a.email === utente.email)
+      .map(a => ({
+        ...a,
+        autore: a.autore || utente.nome
+      }));
+
+    this.dataSelezionata = '';
+  }
+
+  mostraAzioniGenerali() {
+    this.mostra = !this.mostra;
+
+    if (this.mostra) {
+      this.utenteSelezionato = {
+        nome: 'Tutti',
+        email: '',
+        password: ''
+      } as Persona;
+
+      const tutte = this.userService.getAzioniGenerali();
+
+      this.azioniUtente = tutte.map(a => ({
+        ...a,
+        autore: a.autore || ''
+      }));
+
+      this.dataSelezionata = '';
+    } else {
+      this.utenteSelezionato = null;
+      this.azioniUtente = [];
+    }
+  }
+
+  get azioniFiltrate() {
+    if (!this.dataSelezionata) {
+      return this.azioniUtente;
+    }
+
+    return this.azioniUtente.filter(
+      a => a.date === this.dataSelezionata
+    );
+  }
+
   svuotaCronologia() {
-  if (!this.utenteSelezionato) return;
+    if (!this.utenteSelezionato) return;
 
-  // Recupera tutte le azioni
-  const tutte = this.userService.getAzioniGenerali();
+    const tutte = this.userService.getAzioniGenerali();
 
-  // Filtra via quelle dell’utente selezionato
-  const nuoveAzioni = tutte.filter(a => a.email !== this.utenteSelezionato!.email);
+    const nuoveAzioni = tutte.filter(
+      a => a.email !== this.utenteSelezionato!.email
+    );
 
-  // Salva nel servizio
-  this.userService.setAzioniGenerali(nuoveAzioni);
+    this.userService.setAzioniGenerali(nuoveAzioni);
 
-  // Aggiorna la vista
-  this.azioniUtente = [];
-  this.dataSelezionata = "";
-  localStorage.removeItem('azioni_generali')
+    this.azioniUtente = [];
+    this.dataSelezionata = '';
 
-  alert("Cronologia svuotata con successo!");
-}
+    localStorage.removeItem('azioni_generali');
 
-  tornaHome() { this.router.navigate(['/']); 
+    alert('Cronologia svuotata con successo!');
+  }
 
+  tornaHome() {
+    this.router.navigate(['/']);
   }
 }
