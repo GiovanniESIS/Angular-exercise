@@ -20,6 +20,8 @@ export class ListUsers {
 
   utenti: Persona[] = [];
   utenteSelezionato: Persona | null = null;
+  utenteDaCancellare: Persona | null = null;
+
 
   azioniUtente: any[] = [];
   dataSelezionata: string = '';
@@ -31,11 +33,31 @@ export class ListUsers {
   constructor(private userService: Users, private router: Router) {
     this.userService.getUtenti().subscribe(u => this.utenti = u);
     this.utenteAttivo = this.userService.getUtenteAttivo();
+    console.log("Utente attivo:", this.utenteAttivo);
   }
+
 
   eliminaUtente(email: string) {
     this.userService.eliminaUtente(email);
   }
+
+  chiediConfermaEliminazione(utente: Persona) {
+  this.utenteDaCancellare = utente;
+}
+
+confermaEliminazione() {
+  if (!this.utenteDaCancellare) return;
+  localStorage.setItem('utenteAttivo', 'Sconosciuto');
+  this.utenteAttivo = 'Sconosciuto';
+  console.log("Utente attivo:", this.utenteAttivo);
+  this.eliminaUtente(this.utenteDaCancellare.email);
+  this.utenteDaCancellare = null;
+}
+
+annullaEliminazione() {
+  this.utenteDaCancellare = null;
+}
+
 
   goModify(email: string) {
     this.userService.setSelectedEmail(email);
@@ -112,6 +134,7 @@ export class ListUsers {
   }
 
   tornaHome() {
+    localStorage.removeItem('utenteAttivo');
     this.router.navigate(['/']);
   }
 }

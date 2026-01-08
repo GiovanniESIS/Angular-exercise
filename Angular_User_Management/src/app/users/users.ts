@@ -17,7 +17,6 @@ export class Users {
     this.utenteAttivo = localStorage.getItem('utenteAttivo') || '';
   }
 
- 
   setUtenteAttivo(nome: string) {
     this.utenteAttivo = nome;
     localStorage.setItem('utenteAttivo', nome);
@@ -25,7 +24,7 @@ export class Users {
 
   getUtenteAttivo(): string {
     if (!this.utenteAttivo) {
-      this.utenteAttivo = localStorage.getItem('utenteAttivo') || '';
+      this.utenteAttivo = localStorage.getItem('utenteAttivo') || 'Sconosciuto';
     }
     return this.utenteAttivo;
   }
@@ -74,6 +73,9 @@ export class Users {
 
 
   public creaUtente(persona: Persona) {
+    if(persona.email == "admin" && persona.password == "admin") {
+      return;
+    }
     const duplicato = this.utenti.some(u => u.email === persona.email);
     if (duplicato) {
       throw new Error('Email già presente');

@@ -10,6 +10,10 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './login.css',
 })
 export class Login {
+  admin = {
+    email: 'admin',
+    password: 'admin'
+  }
  email: string = '';
   password: string = '';
   err: string = '';
@@ -31,15 +35,20 @@ export class Login {
   }
 
   login() {
+    if(this.email === this.admin.email && this.password === this.admin.password) {
+      this.userService.setUtenteAttivo('Admin');
+      this.router.navigate(['/list_users']);
+      return;
+    }
     if (!this.email || !this.password) {
       this.showError('Compila tutti i campi');
       return;
     }
-
+    
     const utente = this.utenti.find(u => u.email === this.email && u.password === this.password);
 
     if (utente) {
-                  this.userService.setUtenteAttivo(utente.nome);
+        this.userService.setUtenteAttivo(utente.nome);
 
       this.router.navigate(['/list_users']);
 

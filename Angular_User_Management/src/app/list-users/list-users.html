@@ -16,8 +16,12 @@
     <tr>
     <td>{{u.nome}}</td>
     <td>{{u.email}}</td>
-    <td>{{ '*'.repeat(u.password.length) }}</td>
-    <td><button id="delete_button" (click)="eliminaUtente(u.email)">Cancella</button></td>
+    @if(utenteAttivo == 'Admin'){
+    <td>{{ u.password }}</td>
+    } @else {
+      <td>{{ '*'.repeat(u.password.length) }}</td>
+    }
+    <td><button id="delete_button" (click)="chiediConfermaEliminazione(u)">Cancella</button></td>
     <td><button id="modify_btn" (click)="goModify(u.email)">Modifica</button></td>
     <td><button class="action-button small"  (click)="selezionaUtente(u)">Mostra azioni</button></td>
     
@@ -25,24 +29,23 @@
     }
 
 </table>
-<div *ngIf="utenteSelezionato" style="margin-top: 20px;">
+<!-- POPUP CONFERMA ELIMINAZIONE -->
+<div class="overlay" *ngIf="utenteDaCancellare">
+  <div class="modal">
+    <h3>⚠️ Conferma eliminazione</h3>
 
-  <h2>Azioni di {{ utenteSelezionato.nome }}</h2>
+    <p>
+      Sei sicuro di cancellare l’account
+      <strong>{{ utenteDaCancellare.nome }}</strong>?
+    </p>
 
-  <!-- 🔥 TASTO SVUOTA CRONOLOGIA -->
-  <button class="action-button small"
-          style="margin-bottom: 1rem;"
-          (click)="svuotaCronologia()">
-    🗑️ Svuota cronologia
-  </button>
-
-  <label>Filtra per data:</label>
-  <input type="date" [(ngModel)]="dataSelezionata">
-
-  <ul>
-    <li *ngFor="let a of azioniFiltrate">
-      <strong>{{ a.autore }}</strong> — {{ a.title }} — {{ a.date }}
-    </li>
-  </ul>
-
+    <div class="actions">
+      <button class="danger" (click)="confermaEliminazione()">
+        Sì, cancella
+      </button>
+      <button (click)="annullaEliminazione()">
+        Annulla
+      </button>
+    </div>
+  </div>
 </div>
