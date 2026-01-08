@@ -33,7 +33,6 @@ export class ListUsers {
   constructor(private userService: Users, private router: Router) {
     this.userService.getUtenti().subscribe(u => this.utenti = u);
     this.utenteAttivo = this.userService.getUtenteAttivo();
-    console.log("Utente attivo:", this.utenteAttivo);
   }
 
 
@@ -49,7 +48,7 @@ confermaEliminazione() {
   if (!this.utenteDaCancellare) return;
   localStorage.setItem('utenteAttivo', 'Sconosciuto');
   this.utenteAttivo = 'Sconosciuto';
-  console.log("Utente attivo:", this.utenteAttivo);
+
   this.eliminaUtente(this.utenteDaCancellare.email);
   this.utenteDaCancellare = null;
 }
